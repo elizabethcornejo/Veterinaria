@@ -2,7 +2,6 @@ from persona import persona
 from mascota import mascota
 from consulta import consulta
 
-
 while True:
 
     print("\n===================================")
@@ -12,35 +11,31 @@ while True:
     print("1. Mostrar consultas")
     print("2. Mostrar mascotas")
     print("3. Mostrar dueños")
-    print("4. Registrar dueño")
-    print("5. Registrar mascota")
-    print("6. Registrar consulta")
-    print("7. Buscar mascota")
-    print("8. Eliminar mascota")
-    print("9. Buscar consulta")
-    print("10. Eliminar consulta")
-    print("11. Buscar dueño")
-    print("12. Eliminar dueño")
-    print("13. Salir")
+    print("4. REGISTRAR ATENCIÓN COMPLETA") # <-- Dejamos solo esta opción de registro
+    print("5. Buscar mascota")
+    print("6. Eliminar mascota")
+    print("7. Buscar consulta")
+    print("8. Eliminar consulta")
+    print("9. Buscar dueño")
+    print("10. Eliminar dueño")
+    print("11. Salir")
 
     opcion = input("\nSeleccione una opción: ")
 
-    # MOSTRAR CONSULTAS
+    # MOSTRAR LISTAS
     if opcion == "1":
         consulta.listar()
 
-    # MOSTRAR MASCOTAS
     elif opcion == "2":
         mascota.listar()
 
-    # MOSTRAR DUEÑOS
     elif opcion == "3":
         persona.listar()
 
-    # REGISTRAR DUEÑO
+    # EL NUEVO REGISTRO TODO EN UNO (FÁCIL DE EXPLICAR)
     elif opcion == "4":
-
-        nombre = input("Nombre: ")
+        print("\n--- PASO 1: DATOS DEL DUEÑO ---")
+        nombre = input("Nombre dueño: ")
         email = input("Email: ")
         telefono = input("Telefono: ")
         rut = input("Rut: ")
@@ -48,84 +43,56 @@ while True:
         calle = input("Calle: ")
         numero = input("Numero residencia: ")
 
-        nuevo_dueno = persona(
-            nombre,
-            email,
-            telefono,
-            rut,
-            comuna,
-            calle,
-            numero
-        )
-
+        # Creamos el objeto dueño con los datos ingresados y lo guardamos
+        nuevo_dueno = persona(nombre, email, telefono, rut, comuna, calle, numero)
         nuevo_dueno.guardar()
 
-    # REGISTRAR MASCOTA
-    elif opcion == "5":
-
-        nombre = input("Nombre mascota: ")
-        especie = int(input("ID especie: "))
-        raza = int(input("ID raza: "))
+        print("\n--- PASO 2: DATOS DE LA MASCOTA ---")
+        nombre_m = input("Nombre mascota: ")
+        especie = int(input("ID especie (ej: 1): "))
+        raza = int(input("ID raza (ej: 1): "))
         sexo = input("Sexo: ")
         fecha_nac = input("Fecha nacimiento (AAAA-MM-DD): ")
         peso = float(input("Peso: "))
-        dueno = int(input("ID dueño: "))
+        dueno = int(input("¿Qué ID de dueño le asignó el sistema?: ")) # <-- Pregunta básica y directa
 
-        nueva_mascota = mascota(
-            nombre,
-            especie,
-            raza,
-            sexo,
-            fecha_nac,
-            peso,
-            dueno
-        )
-
+        # Creamos el objeto mascota y lo guardamos
+        nueva_mascota = mascota(nombre_m, especie, raza, sexo, fecha_nac, peso, dueno)
         nueva_mascota.guardar()
 
-    # REGISTRAR CONSULTA
-    elif opcion == "6":
-
+        print("\n--- PASO 3: DATOS DE LA CONSULTA ---")
         motivo = input("Motivo consulta: ")
         anamnesis = input("Anamnesis: ")
-        tipo_consulta = int(input("ID tipo consulta: "))
-        mascota_id = int(input("ID mascota: "))
+        tipo_consulta = int(input("ID tipo consulta (ej: 1): "))
+        mascota_id = int(input("¿Qué ID de mascota le asignó el sistema?: ")) # <-- Pregunta básica y directa
 
-        nueva_consulta = consulta(
-            motivo,
-            anamnesis,
-            tipo_consulta,
-            mascota_id
-        )
-
+        # Creamos el objeto consulta y lo guardamos
+        nueva_consulta = consulta(motivo, anamnesis, tipo_consulta, mascota_id)
         nueva_consulta.guardar()
 
-    # BUSCAR MASCOTA
-    elif opcion == "7":
+        print("\n=== ¡Proceso terminado exitosamente! ===")
+
+    # ACCIONES DE BÚSQUEDA Y ELIMINACIÓN
+    elif opcion == "5":
         mascota.buscar()
 
-    # ELIMINAR MASCOTA
-    elif opcion == "8":
+    elif opcion == "6":
         mascota.eliminar()
 
-    # BUSCAR CONSULTA
-    elif opcion == "9":
+    elif opcion == "7":
         consulta.buscar()
 
-    # ELIMINAR CONSULTA
-    elif opcion == "10":
+    elif opcion == "8":
         consulta.eliminar()
 
-    # BUSCAR DUEÑO
-    elif opcion == "11":
+    elif opcion == "9":
         persona.buscar()
 
-    # ELIMINAR DUEÑO
-    elif opcion == "12":
+    elif opcion == "10":
         persona.eliminar()
 
     # SALIR
-    elif opcion == "13":
+    elif opcion == "11":
         print("\nPrograma finalizado.")
         break
 

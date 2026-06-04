@@ -46,6 +46,7 @@ class mascota:
         conexion.commit()
 
         print("Mascota registrada")
+        return cursor.lastrowid
 
     @staticmethod
     def listar():

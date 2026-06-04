@@ -47,6 +47,7 @@ class persona:
         conexion.commit()
 
         print("Dueño registrado")
+        return cursor.lastrowid
 
     @staticmethod
     def listar():
