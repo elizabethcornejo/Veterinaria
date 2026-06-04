@@ -8,7 +8,7 @@ class consulta:
         self.tipo_consulta = tipo_consulta
         self.mascota = mascota
 
-    def mostrar_datos_cosulta(self):
+    def mostrar_datos_consulta(self):
         print(f"{self.motivo}")
         print(f"{self.anamnesis}")
         print(f"{self.tipo_consulta}")
@@ -23,7 +23,7 @@ class consulta:
         sql = """
         INSERT INTO consultas
         (motivo_consulta, anamnesis, id_tipo_consulta, id_mascota)
-        VALUES (%s,%s,%s,%s)
+        VALUES (%s, %s, %s, %s)
         """
 
         valores = (
@@ -42,13 +42,28 @@ class consulta:
     def listar():
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                id_consulta,
+                motivo_consulta,
+                anamnesis,
+                id_tipo_consulta,
+                id_mascota
             FROM consultas
             WHERE deleted = 0
         """)
 
-        for fila in cursor.fetchall():
-            print(fila)
+        consultas = cursor.fetchall()
+
+        print("\n===== CONSULTAS =====\n")
+
+        for consulta in consultas:
+            print(
+                f"ID: {consulta[0]} | "
+                f"Motivo: {consulta[1]} | "
+                f"Anamnesis: {consulta[2]} | "
+                f"Tipo: {consulta[3]} | "
+                f"Mascota: {consulta[4]}"
+            )
 
     @staticmethod
     def buscar():
@@ -56,13 +71,31 @@ class consulta:
         id_consulta = int(input("ID consulta: "))
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                id_consulta,
+                motivo_consulta,
+                anamnesis,
+                id_tipo_consulta,
+                id_mascota
             FROM consultas
             WHERE id_consulta = %s
+            AND deleted = 0
         """, (id_consulta,))
 
-        for fila in cursor.fetchall():
-            print(fila)
+        consultas = cursor.fetchall()
+
+        if len(consultas) == 0:
+            print("No se encontró la consulta.")
+
+        else:
+            for consulta in consultas:
+                print(
+                    f"ID: {consulta[0]} | "
+                    f"Motivo: {consulta[1]} | "
+                    f"Anamnesis: {consulta[2]} | "
+                    f"Tipo: {consulta[3]} | "
+                    f"Mascota: {consulta[4]}"
+                )
 
     @staticmethod
     def eliminar():

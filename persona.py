@@ -1,6 +1,7 @@
 from conexion import conexion, cursor
 
 class persona:
+
     def __init__(self, nombre, email, telefono, rut, comuna, calle, numero_residencia):
         self.nombre = nombre
         self.email = email
@@ -19,7 +20,14 @@ class persona:
         print(f"{self.calle}")
         print(f"{self.numero_residencia}")
 
-    def actualizar_informacion_persona(self, nuevo_email, nuevo_telefono, nueva_comuna, nueva_calle, nuevo_numero_residencia):
+    def actualizar_informacion_persona(
+        self,
+        nuevo_email,
+        nuevo_telefono,
+        nueva_comuna,
+        nueva_calle,
+        nuevo_numero_residencia
+    ):
         self.email = nuevo_email
         self.telefono = nuevo_telefono
         self.comuna = nueva_comuna
@@ -32,8 +40,8 @@ class persona:
 
         sql = """
         INSERT INTO duenos
-        (nombre_dueno,email,telefono,rut)
-        VALUES (%s,%s,%s,%s)
+        (nombre_dueno, email, telefono, rut)
+        VALUES (%s, %s, %s, %s)
         """
 
         valores = (
@@ -53,13 +61,28 @@ class persona:
     def listar():
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                id_dueno,
+                nombre_dueno,
+                email,
+                telefono,
+                rut
             FROM duenos
             WHERE deleted = 0
         """)
 
-        for fila in cursor.fetchall():
-            print(fila)
+        duenos = cursor.fetchall()
+
+        print("\n===== DUEÑOS =====\n")
+
+        for dueno in duenos:
+            print(
+                f"ID: {dueno[0]} | "
+                f"Nombre: {dueno[1]} | "
+                f"Email: {dueno[2]} | "
+                f"Teléfono: {dueno[3]} | "
+                f"RUT: {dueno[4]}"
+            )
 
     @staticmethod
     def buscar():
@@ -67,13 +90,31 @@ class persona:
         nombre = input("Nombre dueño: ")
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                id_dueno,
+                nombre_dueno,
+                email,
+                telefono,
+                rut
             FROM duenos
-            WHERE nombre_dueno = %s
-        """, (nombre,))
+            WHERE nombre_dueno LIKE %s
+            AND deleted = 0
+        """, ('%' + nombre + '%',))
 
-        for fila in cursor.fetchall():
-            print(fila)
+        duenos = cursor.fetchall()
+
+        if len(duenos) == 0:
+            print("No se encontraron dueños.")
+
+        else:
+            for dueno in duenos:
+                print(
+                    f"ID: {dueno[0]} | "
+                    f"Nombre: {dueno[1]} | "
+                    f"Email: {dueno[2]} | "
+                    f"Teléfono: {dueno[3]} | "
+                    f"RUT: {dueno[4]}"
+                )
 
     @staticmethod
     def eliminar():

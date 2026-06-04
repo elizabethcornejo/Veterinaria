@@ -28,8 +28,8 @@ class mascota:
 
         sql = """
         INSERT INTO mascotas
-        (nombre_mascota,sexo_mascota,fecha_nac,peso,id_dueno,id_especie,id_raza)
-        VALUES (%s,%s,%s,%s,%s,%s,%s)
+        (nombre_mascota, sexo_mascota, fecha_nac, peso, id_dueno, id_especie, id_raza)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
 
         valores = (
@@ -52,27 +52,57 @@ class mascota:
     def listar():
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                id_mascota,
+                nombre_mascota,
+                sexo_mascota,
+                peso
             FROM mascotas
             WHERE deleted = 0
         """)
 
-        for fila in cursor.fetchall():
-            print(fila)
+        mascotas = cursor.fetchall()
+
+        print("\n===== MASCOTAS =====\n")
+
+        for mascota in mascotas:
+            print(
+                f"ID: {mascota[0]} | "
+                f"Nombre: {mascota[1]} | "
+                f"Sexo: {mascota[2]} | "
+                f"Peso: {mascota[3]} kg"
+            )
 
     @staticmethod
     def buscar():
 
-        nombre = input("Nombre mascota: ")
+        id_mascota = int(input("ID mascota: "))
 
         cursor.execute("""
-            SELECT *
+            SELECT
+                id_mascota,
+                nombre_mascota,
+                sexo_mascota,
+                fecha_nac,
+                peso
             FROM mascotas
-            WHERE nombre_mascota = %s
-        """, (nombre,))
+            WHERE id_mascota = %s
+            AND deleted = 0
+        """, (id_mascota,))
 
-        for fila in cursor.fetchall():
-            print(fila)
+        mascotas = cursor.fetchall()
+
+        if len(mascotas) == 0:
+            print("No se encontró la mascota.")
+        else:
+            for mascota in mascotas:
+                print(
+                    f"ID: {mascota[0]} | "
+                    f"Nombre: {mascota[1]} | "
+                    f"Sexo: {mascota[2]} | "
+                    f"Fecha Nac: {mascota[3]} | "
+                    f"Peso: {mascota[4]} kg"
+                )
 
     @staticmethod
     def eliminar():
@@ -88,3 +118,5 @@ class mascota:
         conexion.commit()
 
         print("Mascota eliminada")
+
+
