@@ -11,7 +11,7 @@ while True:
     print("1. Mostrar consultas")
     print("2. Mostrar mascotas")
     print("3. Mostrar dueños")
-    print("4. REGISTRAR ATENCIÓN COMPLETA") # <-- Dejamos solo esta opción de registro
+    print("4. REGISTRAR ATENCIÓN COMPLETA")
     print("5. Buscar mascota")
     print("6. Eliminar mascota")
     print("7. Buscar consulta")
@@ -32,8 +32,9 @@ while True:
     elif opcion == "3":
         persona.listar()
 
-    # EL NUEVO REGISTRO TODO EN UNO (FÁCIL DE EXPLICAR)
+    # REGISTRO COMPLETO
     elif opcion == "4":
+
         print("\n--- PASO 1: DATOS DEL DUEÑO ---")
         nombre = input("Nombre dueño: ")
         email = input("Email: ")
@@ -43,36 +44,58 @@ while True:
         calle = input("Calle: ")
         numero = input("Numero residencia: ")
 
-        # Creamos el objeto dueño con los datos ingresados y lo guardamos
-        nuevo_dueno = persona(nombre, email, telefono, rut, comuna, calle, numero)
-        nuevo_dueno.guardar()
+        nuevo_dueno = persona(
+            nombre,
+            email,
+            telefono,
+            rut,
+            comuna,
+            calle,
+            numero
+        )
+
+        # Guarda el dueño y obtiene su ID automáticamente
+        id_dueno = nuevo_dueno.guardar()
 
         print("\n--- PASO 2: DATOS DE LA MASCOTA ---")
         nombre_m = input("Nombre mascota: ")
-        especie = int(input("ID especie (ej: 1): "))
-        raza = int(input("ID raza (ej: 1): "))
+        especie = int(input("ID especie: "))
+        raza = int(input("ID raza: "))
         sexo = input("Sexo: ")
         fecha_nac = input("Fecha nacimiento (AAAA-MM-DD): ")
         peso = float(input("Peso: "))
-        dueno = int(input("¿Qué ID de dueño le asignó el sistema?: ")) # <-- Pregunta básica y directa
 
-        # Creamos el objeto mascota y lo guardamos
-        nueva_mascota = mascota(nombre_m, especie, raza, sexo, fecha_nac, peso, dueno)
-        nueva_mascota.guardar()
+        nueva_mascota = mascota(
+            nombre_m,
+            especie,
+            raza,
+            sexo,
+            fecha_nac,
+            peso,
+            id_dueno
+        )
+
+        # Guarda la mascota y obtiene su ID automáticamente
+        id_mascota = nueva_mascota.guardar()
 
         print("\n--- PASO 3: DATOS DE LA CONSULTA ---")
         motivo = input("Motivo consulta: ")
         anamnesis = input("Anamnesis: ")
-        tipo_consulta = int(input("ID tipo consulta (ej: 1): "))
-        mascota_id = int(input("¿Qué ID de mascota le asignó el sistema?: ")) # <-- Pregunta básica y directa
+        tipo_consulta = int(input("ID tipo consulta: "))
 
-        # Creamos el objeto consulta y lo guardamos
-        nueva_consulta = consulta(motivo, anamnesis, tipo_consulta, mascota_id)
+        nueva_consulta = consulta(
+            motivo,
+            anamnesis,
+            tipo_consulta,
+            id_mascota,
+            id_dueno
+        )
+
         nueva_consulta.guardar()
 
         print("\n=== ¡Proceso terminado exitosamente! ===")
 
-    # ACCIONES DE BÚSQUEDA Y ELIMINACIÓN
+    # BÚSQUEDAS Y ELIMINACIONES
     elif opcion == "5":
         mascota.buscar()
 

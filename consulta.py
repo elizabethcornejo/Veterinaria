@@ -2,11 +2,12 @@ from conexion import conexion, cursor
 
 class consulta:
 
-    def __init__(self, motivo, anamnesis, tipo_consulta, mascota):
+    def __init__(self, motivo, anamnesis, tipo_consulta, mascota, dueno):
         self.motivo = motivo
         self.anamnesis = anamnesis
         self.tipo_consulta = tipo_consulta
         self.mascota = mascota
+        self.dueno = dueno
 
     def mostrar_datos_consulta(self):
         print(f"{self.motivo}")
@@ -22,15 +23,16 @@ class consulta:
 
         sql = """
         INSERT INTO consultas
-        (motivo_consulta, anamnesis, id_tipo_consulta, id_mascota)
-        VALUES (%s, %s, %s, %s)
+        (motivo_consulta, anamnesis, id_tipo_consulta, id_mascota, id_dueno)
+        VALUES (%s, %s, %s, %s, %s)
         """
 
         valores = (
             self.motivo,
             self.anamnesis,
             self.tipo_consulta,
-            self.mascota
+            self.mascota,
+            self.dueno
         )
 
         cursor.execute(sql, valores)

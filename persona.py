@@ -20,14 +20,9 @@ class persona:
         print(f"{self.calle}")
         print(f"{self.numero_residencia}")
 
-    def actualizar_informacion_persona(
-        self,
-        nuevo_email,
-        nuevo_telefono,
-        nueva_comuna,
-        nueva_calle,
-        nuevo_numero_residencia
-    ):
+    def actualizar_informacion_persona(self, nuevo_email, nuevo_telefono,
+    nueva_comuna, nueva_calle, nuevo_numero_residencia ):
+        
         self.email = nuevo_email
         self.telefono = nuevo_telefono
         self.comuna = nueva_comuna
